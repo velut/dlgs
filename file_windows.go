@@ -10,9 +10,10 @@ import (
 )
 
 // File displays a file dialog, returning the selected file/directory and a bool for success.
-func File(title, filter string, directory bool) (string, bool, error) {
+// On Windows, if directory is true, owner should be the name of the window that owns the dialog.
+func File(title, filter, owner string, directory bool) (string, bool, error) {
 	if directory {
-		out, ok := dirDialog(title)
+		out, ok := dirDialog(title, owner)
 		return out, ok, nil
 	}
 
@@ -72,7 +73,7 @@ func fileDialog(title, filter string, multi bool) (string, bool) {
 }
 
 // dirDialog displays directory dialog.
-func dirDialog(title string) (string, bool) {
+func dirDialog(title, owner string) (string, bool) {
 	var bi browseinfoW
 	buf := make([]uint16, maxPath)
 
@@ -81,6 +82,10 @@ func dirDialog(title string) (string, bool) {
 	bi.title = t
 	bi.displayName = &buf[0]
 	bi.flags = bifEditBox | bifNewDialogStyle
+
+	if owner != "" {
+		bi.owner = findWindow(owner)
+	}
 
 	lpItem := shBrowseForFolder(&bi)
 	ok := shGetPathFromIDList(lpItem, &buf[0])

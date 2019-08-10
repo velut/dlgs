@@ -3,7 +3,8 @@
 package dlgs
 
 // File displays a file dialog, returning the selected file/directory and a bool for success.
-func File(title, filter string, directory bool) (string, bool, error) {
+// On Windows, if directory is true, owner should be the name of the window that owns the dialog.
+func File(title, filter, owner string, directory bool) (string, bool, error) {
 	return "", false, ErrUnsupported
 }
 

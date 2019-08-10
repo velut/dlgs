@@ -26,7 +26,7 @@ func ExampleEntry() {
 }
 
 func ExampleFile() {
-	_, _, err := File("Select file", "", false)
+	_, _, err := File("Select file", "", "", false)
 	if err != nil {
 		panic(err)
 	}

@@ -39,6 +39,7 @@ var (
 	isDialogMessageW      = user32.NewProc("IsDialogMessageW")
 	getSystemMetricsW     = user32.NewProc("GetSystemMetrics")
 	systemParametersInfoW = user32.NewProc("SystemParametersInfoW")
+	findWindowW           = user32.NewProc("FindWindowW")
 
 	createFontIndirectW = gdi32.NewProc("CreateFontIndirectW")
 
@@ -426,6 +427,11 @@ func showWindow(hwnd syscall.Handle, nCmdShow int32) bool {
 func updateWindow(hwnd syscall.Handle) bool {
 	ret, _, _ := updateWindowW.Call(uintptr(hwnd), 0, 0)
 	return ret != 0
+}
+
+func findWindow(windowName string) syscall.Handle {
+	ret, _, _ := findWindowW.Call(0, uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(windowName))))
+	return syscall.Handle(ret)
 }
 
 func isDialogMessage(hwnd syscall.Handle, msg *msgW) bool {

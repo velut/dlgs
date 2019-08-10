@@ -6,7 +6,7 @@ import (
 )
 
 func TestFileDir(t *testing.T) {
-	out, ret, err := File("Choose directory", "", true)
+	out, ret, err := File("Choose directory", "", "", true)
 	if err != nil {
 		t.Error(err)
 	}
@@ -29,7 +29,7 @@ func TestFile(t *testing.T) {
 		filter = "public.image"
 	}
 
-	out, ret, err := File("Select file", filter, false)
+	out, ret, err := File("Select file", filter, "", false)
 	if err != nil {
 		t.Error(err)
 	}
